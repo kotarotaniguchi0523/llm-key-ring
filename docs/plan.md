@@ -66,6 +66,17 @@ llm-key-ring/
 - `lkr-cli` と `lkr-app` は `lkr-core` に依存するだけの薄いラッパー
 - Keychainアクセスは `KeyStore` trait で抽象化 → テスト時にモック差し替え可能
 
+### クロスプラットフォーム対応プラン（Linux / Windows）
+
+現状は macOS Keychain 実装が本番バックエンドだが、`KeyStore` trait を活かして以下の順で段階的に対応する。
+
+| Phase | 対象OS | 実装内容 | 受け入れ条件 |
+|-------|--------|----------|--------------|
+| A | Linux | `KeyStore` の `libsecret` 実装を追加（service/account 命名規則は現行維持） | `set/get/list/rm/gen/exec` が Linux CI で通る |
+| B | Windows | `KeyStore` の Credential Manager 実装を追加（同一命名規則） | Linux と同等の CLI 機能が Windows CI で通る |
+| C | 共通 | `cfg(target_os)` で `KeyStore::new_default()` をOS別に切替 | CLI 呼び出し側からOS差分を意識せず利用可能 |
+| D | 検証 | OS別E2E・移行手順・README更新 | macOS/Linux/Windows で同一コマンド体系を提供 |
+
 ```rust
 // lkr-core の設計イメージ
 pub trait KeyStore {
