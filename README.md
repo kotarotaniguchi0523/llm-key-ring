@@ -212,7 +212,7 @@ All business logic lives in `lkr-core`. The CLI is a thin wrapper.
 
 ### Platform Support
 
-Currently macOS only (uses native Keychain via `security-framework`). Linux (`libsecret`) / Windows (Credential Manager) support plan is tracked in [docs/plan.md](docs/plan.md#クロスプラットフォーム対応プランlinux--windows). The `KeyStore` trait abstraction is designed for this backend expansion.
+Currently macOS only (uses native Keychain via `security-framework`). Linux (`libsecret`) / Windows (Credential Manager) support plan is tracked in [docs/plan.md](docs/plan.md). The `KeyStore` trait abstraction is designed for this backend expansion.
 
 ### Keychain Storage
 
